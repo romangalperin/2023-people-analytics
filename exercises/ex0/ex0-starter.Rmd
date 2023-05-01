@@ -1,0 +1,99 @@
+---
+title: "Introduction to R with Tidyverse"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
+library(arrow)
+```
+
+# Introduction
+
+This example aims to introduce you to the R programming language with a focus on the tidyverse approach. By the end of this chapter, you will be able to install R, RStudio, and the tidyverse package, load a data file from the web, list all variables in the dataset, and calculate the percentage of missing data for selected variables.
+
+## Installing R, RStudio, and Tidyverse
+
+Installation of R, RStudio, and the tidyverse is fairly straightforward. Here are the steps to follow:
+
+1. Download and install R from the CRAN (Comprehensive R Archive Network) website (https://cran.r-project.org/).
+2. Download and install RStudio from the RStudio website (https://rstudio.com/).
+3. Once R and RStudio are installed, open RStudio and install the tidyverse package. In the RStudio console, type `install.packages("tidyverse")`.
+
+## Basics of R and Tidyverse
+
+After successful installation, explore the RStudio interface. Notice the R console, script editor, and workspace. Try performing basic R operations such as arithmetic and variable assignment.
+
+Next, get familiar with some tidyverse functions. Tidyverse is a collection of R packages designed to makes data science faster, easier, and more fun! 
+
+## Introduction to R Markdown
+
+R Markdown is a powerful tool for creating dynamic documents that combine code, text, and output. It allows you to create HTML, PDF, and Word documents, as well as slideshows and websites. In this section, we will explain how to use R Markdown and how it fits into the RStudio environment.
+
+### Getting Started with R Markdown
+
+To create an R Markdown document in RStudio, follow these steps:
+
+1. Click on the "File" menu, then "New File", and select "R Markdown".
+2. Choose a document type (e.g., "HTML", "PDF", or "Word") and provide a title and author for your document.
+3. Click "OK" to create the R Markdown document.
+
+An R Markdown document consists of chunks of code and text. The text is written in Markdown, a lightweight markup language that is easy to read and write. Code chunks allow you to embed R code directly into the document, which can be executed to produce output that will be included in the final document.
+
+### Code Chunks and Text in R Markdown
+
+To insert a new code chunk, you can use the "Insert" menu or press `Ctrl + Alt + I` (or `Cmd + Option + I` on a Mac). A code chunk starts with three backticks followed by `{r}`, and ends with three backticks.
+
+Here's an example of a code chunk in R Markdown:
+
+```{r}
+# This is a code chunk in R Markdown
+x <- 1:10
+mean(x)
+```
+
+Text can be added outside of code chunks, using Markdown syntax for formatting. For example, you can create headings with `#`, bold text with `**`, and italicized text with `*`.
+
+### Generating Output in R Markdown
+
+Once you have written your R Markdown document, you can generate the output by clicking the "Knit" button in RStudio. The output will be created in the format you selected when creating the document (e.g., HTML, PDF, or Word).
+
+R Markdown allows you to create reproducible reports and analyses that combine text, code, and output. This makes it easier to share your work with others and ensure that your results can be easily replicated and understood.
+
+Now that you are familiar with the basics of R Markdown, you can start incorporating it into your data analysis workflow. As you work through the rest of this chapter, consider using R Markdown to document your code and findings.
+
+## Loading Data from the Web Using Tidyverse
+
+To load a data file from the web, we use the `read_csv()` function from the readr package (part of the tidyverse). For example, to load a data file from a URL, you would use a command like this:
+
+```{r}
+# change to your own path!
+data_path <- "~/Dropbox/McGill/teaching/2022-2023/ORGB690/data/"
+application_data <- read_parquet(paste0(data_path,"app_data_sample.parquet"))
+```
+
+## Exploring Data in R Using Tidyverse
+
+Once the data is loaded, you can list all the variables in the tibble (a modern take on data frames in R) using the `names()` function. To get a summary of your data, use `glimpse()` from the dplyr package (also part of the tidyverse).
+
+Missing data in R is represented by `NA`. You can identify missing data using the `is.na()` function.
+
+## Calculating the Percentage of Missing Data Using Tidyverse
+
+To calculate the percentage of missing data for a variable, use the `sum()` and `is.na()` functions in combination with the `mutate()`, `summarize()`, and `n()` functions from the dplyr package.
+
+Here is an example:
+
+```{r}
+application_data |>
+  mutate(is_na = is.na(examiner_id)) |>
+  summarize(missing = sum(is_na), total = n(), missing_percent = missing/total*100)
+```
+
+## Wrap-up and Next Steps
+
+You've now learned the basics of using R and tidyverse to load and analyze data. Keep practicing your new skills and don't hesitate to refer to Hadley Wickham's "R for Data Science" online textbook (https://r4ds.hadley.nz/) for additional guidance and resources.
+
+Happy coding!
