@@ -68,9 +68,10 @@ following questions:
 
 - What are the organizational and social factors associated with the
   length of patent application prosecution?
-- What is the role of network structure here?
-- What is the role of race and ethnicity in the processes described in
-  the questions above?
+- What are the organizational and social factors associated with
+  examimer attrition?
+- What is the role of gender, race and ethnicity here in the processes
+  underlying the question above?
 
 Offer convincing analysis, as well as projections and related
 recommendations.
