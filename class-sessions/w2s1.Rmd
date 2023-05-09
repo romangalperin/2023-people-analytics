@@ -6,7 +6,6 @@ output: github_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-library(lubridate)
 ```
 
 ## The Motivation Tactics Puzzle
@@ -14,9 +13,24 @@ library(lubridate)
 Let's first load the data for the puzzle:
 
 ```{r load-data}
-# change to your own path!
-data_path <- "~/Dropbox/McGill/teaching/2022-2023/ORGB690/data/"
+data_path = "~/Dropbox/McGill/teaching/2022-2023/ORGB690/data/"
 performance_data <- read_csv(paste0(data_path,"performance_data.csv"))
 
 performance_data
 ```
+
+### Analyze the data
+
+1. Plot the distribution of performance for worker 1.
+
+```{r}
+summary(performance_data)
+
+library(ggplot2)
+
+ggplot(data = performance_data) +
+  geom_histogram(aes(x = worker1))
+  
+```
+
+
