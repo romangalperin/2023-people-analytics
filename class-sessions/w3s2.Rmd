@@ -1,0 +1,23 @@
+---
+title: "w3s2"
+output: html_document
+date: "2023-05-18"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
+library(arrow)
+```
+
+## Open data file
+
+I'm going to load the data I saved after the last exercise.
+```{r load-data}
+
+applications <- read_feather("~/Dropbox/McGill/teaching/2022-2023/ORGB690/data/app_data_starter.feather")
+
+# lists all variables (columns) in the data
+applications |> tbl_vars()
+```
