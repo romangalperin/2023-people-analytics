@@ -1,0 +1,88 @@
+---
+title: "w6s1"
+output: html_document
+date: "2023-06-05"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
+library(arrow)
+```
+
+## Open data file
+
+I'm going to load the data I saved after the last exercise.
+```{r load-data}
+
+applications <- read_feather("~/Dropbox/McGill/teaching/2022-2023/ORGB690/data/app_data_starter.feather")
+
+# lists all variables (columns) in the data
+applications |> tbl_vars()
+```
+## What are gender shares at different levels?
+
+First, let's pick TC 1600. 
+
+```{r}
+
+tc1600 <- applications |> 
+  # keep only TC 1600, drop NA values for gender
+  filter(tc==1600, !is.na(gender)) |> 
+  group_by(examiner_id) |> 
+  summarise(gender = first(gender, na_rm = TRUE), au = min(examiner_art_unit), .groups = "drop")
+
+tc1600 |> count(gender) |> mutate(pct= n/sum(n))
+
+```
+### Overall share vs. perception of share
+
+For women, we can average their perceptions of what share they represent in an AU and compare it to the overall share of women.
+
+We'll have to create a share of women on the AU level, and then average that over all women.
+
+```{r}
+
+tc1600 <- tc1600 |> 
+  group_by(au) |> 
+  mutate(
+    is_woman = if_else(gender == "female",1,0),
+    share_women = sum(is_woman)/n()
+    )
+
+tc1600 |> ungroup() |> filter(gender=="female") |> summarise(avg_share = mean(share_women))
+```
+
+## Let's try for 1700
+Same, as above, just for the different TC.
+
+
+```{r}
+
+tc1700 <- applications |> 
+  # keep only TC 1600, drop NA values for gender
+  filter(tc==1700, !is.na(gender)) |> 
+  group_by(examiner_id) |> 
+  summarise(gender = first(gender, na_rm = TRUE), au = min(examiner_art_unit), .groups = "drop")
+
+tc1700 |> count(gender) |> mutate(pct= n/sum(n))
+
+```
+### Overall share vs. perception of share
+
+For women, we can average their perceptions of what share they represent in an AU and compare it to the overall share of women.
+
+We'll have to create a share of women on the AU level, and then average that over all women.
+
+```{r}
+
+tc1700 <- tc1700 |> 
+  group_by(au) |> 
+  mutate(
+    is_woman = if_else(gender == "female",1,0),
+    share_women = sum(is_woman)/n()
+    )
+
+tc1700 |> ungroup() |> filter(gender=="female") |> summarise(avg_share = mean(share_women))
+```
